@@ -14,6 +14,9 @@ class Database
   private $dsn = '';
   private $connection;
 
+  /**
+   * Builds DSN based on properties set in the object
+   */
   public function __construct()
   {
     $this->dsn = "{$this->type}:dbname={$this->name};" .
