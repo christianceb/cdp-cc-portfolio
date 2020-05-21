@@ -5,11 +5,11 @@
 class Database
 {
   private $type = 'mysql';
-  private $name = 'rad_store';
+  private $name = 'cc_store';
   private $host = 'localhost';
   private $port = '3306';
   private $charSet = 'utf8';
-  private $user = 'christian.ponce';
+  private $user = 'cc_store_user';
   private $password = 'Secret1';
   private $dsn = '';
   private $connection;
