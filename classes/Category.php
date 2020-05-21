@@ -34,7 +34,6 @@ class Category
     "code",
     "name",
     "description",
-    "icon",
     "created_at",
     "updated_at",
     "deleted_at"
@@ -44,7 +43,6 @@ class Category
   public $code;
   public $title;
   public $description;
-  public $icon;
   public $createdAt;
   public $updatedAt;
 
@@ -81,7 +79,6 @@ class Category
     // Set required columns
     $requiredColumns = [
       'code',
-      'name',
       'description',
     ];
 
@@ -91,7 +88,6 @@ class Category
       'created_at',
       'updated_at',
       'deleted_at',
-      'icon' // In $disallowColumns from $requiredColumns until further notice due to schema inconsistencies
     ];
 
     // Check if $body has all required columns for a new category
