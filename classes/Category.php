@@ -1,4 +1,6 @@
 <?php
+include_once '../../functions/helpers.php';
+
 class Category
 {
   private $connection;
@@ -68,6 +70,32 @@ class Category
 
     // Retrieve PDO Statement object based off query string
     $statement = $this->connection->prepare($query);
+
+    // Execute PDO Statement
+    $statement->execute();
+
+    return $statement;
+  }
+
+  /**
+   * Browse for records
+   *
+   * @return void
+   */
+  public function readOne( $id ) {
+    $query =
+      "SELECT * " .
+      "FROM `{$this->tableName}` " . 
+      "WHERE `id` = :id";
+
+    // Retrieve PDO Statement object based off query string
+    $statement = $this->connection->prepare($query);
+
+    // (needlessly) sanitize just to be sure
+    $id = s6eStr( $id );
+
+    // Bind id being searched to id placeholder in query
+    $statement->bindParam( ":id", $id );
 
     // Execute PDO Statement
     $statement->execute();

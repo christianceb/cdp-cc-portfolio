@@ -6,7 +6,6 @@ header("Content-Type: application/json; charset=UTF-8");
 // Prepare required classes and objects
 include_once '../../config/Database.php';
 include_once '../../classes/Category.php';
-include_once '../../functions/helpers.php';
 
 // Instantiate PDO and retrieve persistent connection resource
 $database = new Database();
