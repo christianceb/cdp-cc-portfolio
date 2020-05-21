@@ -3,6 +3,10 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
+// Set default fail states
+$http_response_code = 404;
+$json_response = [ "message" => "No rows found." ];
+
 // Prepare required classes and objects
 include_once '../../config/Database.php';
 include_once '../../classes/Category.php';
@@ -17,7 +21,7 @@ $category = new Category( $databaseConnection );
 // Retrieve entries being browsed
 $statement = $category->read();
 
-// check if more than 0 record found
+// Check if we have some row(s)
 if ( $statement->rowCount() > 0 ) {
   // Instantiate empty array for items in results
   $categories = array();
@@ -36,14 +40,12 @@ if ( $statement->rowCount() > 0 ) {
   }
 
   // Set response code of successful request
-  http_response_code(200);
+  $http_response_code = 200;
 
-  // Return list as a JSON format
-  echo json_encode($categories);
-} else {
-  // Set 'not found' response code
-  http_response_code(404);
-
-  // Return error message in a JSON format
-  echo json_encode( [ "message" => "No rows found." ] );
+  // Return results as part of response
+  $json_response = $categories;
 }
+
+// Return necessary data
+http_response_code( $http_response_code );
+echo json_encode( $json_response );
