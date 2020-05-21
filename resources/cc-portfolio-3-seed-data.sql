@@ -1,4 +1,4 @@
-USE 'rad_store';
+USE 'cc_store';
 
 INSERT INTO `categories` (`id`, `code`, `name`, `description`, `created_at`, `updated_at`)
 VALUES (1, 'FSHN', 'Fashion', 'Category for anything related to fashion.',

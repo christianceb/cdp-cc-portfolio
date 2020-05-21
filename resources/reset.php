@@ -3,8 +3,8 @@
  * Project:     api-practice
  * File:        reset.php
  * Author:      Adrian <Adrian@tafe.wa.edu.au>
- * Date:        2020-05-06
- * Version:     1.0.0
+ * Date:        2020-05-20
+ * Version:     1.1.0
  * Description: add short description of file's purpose
  **********************************************************/
 
@@ -21,8 +21,9 @@ $pdo = new PDO($dsn, 'root', '');
 
 $filePaths = [
     'cc-portfolio-1-create-db.sql',
-    'cc-portfolio-2-seed-data.sql',
-    'cc-portfolio-3-updates.sql'
+    'cc-portfolio-2-create-tables.sql',
+    'cc-portfolio-3-seed-data.sql',
+    'cc-portfolio-4-updates.sql'
 ];
 
 
