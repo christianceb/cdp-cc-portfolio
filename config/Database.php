@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Sets up a database connection using PDO.
  */
