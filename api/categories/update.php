@@ -12,10 +12,10 @@ $database = new Database();
 $databaseConnection = $database->getConnection();
 
 // Pass database connection resource to collection class
-$category = new Category( $databaseConnection );
+$category = new Category($databaseConnection);
 
 // Handle POSTed data from input stream into something useful
-$handleRaw = handleRaw2JSON( file_get_contents('php://input') );
+$handleRaw = handleRaw2JSON(file_get_contents('php://input'));
 
 /**
  * Set flag if insert was successful. Failed by default
@@ -26,27 +26,27 @@ $handleRaw = handleRaw2JSON( file_get_contents('php://input') );
 $updated = 0;
 
 // Flag $updated as incomplete if JSON decode failed
-if ( ! $handleRaw['success'] || ! isset( $handleRaw['body']['id'] ) ) {
+if (!$handleRaw['success'] || !isset($handleRaw['body']['id'])) {
   $updated = -1;
 }
 
 // Sanity check
-$id = floor( $handleRaw['body']['id'] );
-if ( $id > 0 ) {
+$id = floor($handleRaw['body']['id']);
+if ($id > 0) {
   $handleRaw['body']['id'] = $id;
 
   // If true, set flag to 1, 0 otherwise
-  $updated = $category->update( $handleRaw['body'] ) ? 1 : 0;
+  $updated = $category->update($handleRaw['body']) ? 1 : 0;
 } else {
   // Id was set but it had a bad value. Set flag to incomplete (Bad Request)
   $updated = -1;
 }
 
 // Set respective HTTP response code and corresponding message;
-if ( $updated === -1 ) {
+if ($updated === -1) {
   $code = 400;
   $message = "Bad Request";
-} else if ( $updated === 0 ) {
+} else if ($updated === 0) {
   $code = 503;
   $message = "Service Unavailable";
 } else {
@@ -55,7 +55,7 @@ if ( $updated === -1 ) {
 }
 
 // Set HTTP Response Code
-http_response_code( $code );
+http_response_code($code);
 
 // Then some "meaningful" (error) message
-echo json_encode( [ "message" => $message ] );
+echo json_encode(["message" => $message]);
