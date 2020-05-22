@@ -22,8 +22,8 @@ $category = new Category( $databaseConnection );
 // TODO: clarify and implement how value of $id should be retrieve (php://input is a no-go)
 $id = isset( $_GET['id'] ) ? floor( $_GET['id'] ) : null; // Floor to ensure its a number and not a decimal
 
-// Ensure we don't trick ourselves to null
-if ( $id !== null ) {
+// Ensure we don't trick ourselves to null. Sanity check $id too.
+if ( $id !== null && $id > 0 ) {
   // Retrieve entries being browsed
   $statement = $category->readOne( $id );
 
