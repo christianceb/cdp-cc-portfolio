@@ -194,4 +194,70 @@ class Category
 
     return $statement;
   }
+
+  /**
+   * Update a record
+   *
+   * @param array $category The category to be created
+   * @return mixed -1 if provided data is incomplete, true if success, false if failed
+   */
+  public function update( $category ) {
+    // Set required columns
+    $requiredColumns = [
+      'id',
+      'code',
+      'description',
+    ];
+
+    // Set columns to disallow updating
+    $disallowColumns = [
+      'created_at',
+      'updated_at',
+      'deleted_at',
+    ];
+
+    // Check if $category has all required columns for a new category
+    if ( checkRequired( $requiredColumns, $category ) === false ) {
+      return -1; // Does not have all required fields
+    }
+
+    // Build empty sanitized dictionary
+    $sanitizedRow = [];
+
+    // Build SET clause directives
+    $setClause = [];
+
+    // No need to be very paranoid from here on. Just sanitize.
+    foreach ( $this->tableColumns as $column ) {
+      // Skip columns that we disallow mutation
+      if ( in_array( $column, $disallowColumns )  ) {
+        continue;
+      }
+
+      // Add key/value pair to dictionary. Sanitize as needed
+      $sanitizedRow[ $column ] = isset( $category[ $column ] ) ? s6eStr( $category[ $column ] ) : "";
+
+      // We don't update the ID, we'll only reference to it.
+      if ( $column !== "id" ) {
+        $setClause[] = " {$column}=:{$column}";
+        //$setClause .= " {$column}=:{$column}";
+      }
+    }
+
+    // Combine params and fragments into a query
+    $query =
+      "UPDATE `{$this->tableName}` ".
+      "SET " . implode( ', ', $setClause ) . " " .
+      "WHERE `id`=:id";
+
+    // Retrieve PDO Statement object based off query string
+    $statement = $this->connection->prepare($query);
+
+    // The final loop to bind params. Pass by reference because $value mutates to last item in array!
+    foreach ( $sanitizedRow as $key => &$value ) {
+      $statement->bindParam( ":{$key}", $value );
+    }
+
+    return $statement->execute();
+  }
 }
