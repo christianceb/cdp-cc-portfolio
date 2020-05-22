@@ -78,7 +78,7 @@ class Category
   }
 
   /**
-   * Browse for records
+   * Browse for a record using an ID
    *
    * @return void
    */
@@ -103,7 +103,13 @@ class Category
     return $statement;
   }
 
-  public function create( $body ) {
+  /**
+   * Create a category
+   *
+   * @param array $category The category to be created
+   * @return mixed -1 if provided data is incomplete, true if success, false if failed
+   */
+  public function create( $category ) {
     // Set required columns
     $requiredColumns = [
       'code',
@@ -118,9 +124,9 @@ class Category
       'deleted_at',
     ];
 
-    // Check if $body has all required columns for a new category
-    if ( checkRequired( $requiredColumns, $body ) === false ) {
-      return -1;
+    // Check if $category has all required columns for a new category
+    if ( checkRequired( $requiredColumns, $category ) === false ) {
+      return -1; // Does not have all required fields
     }
 
     // Build empty sanitized dictionary
@@ -134,7 +140,7 @@ class Category
       }
 
       // Add key/value pair to dictionary. Sanitize as needed
-      $sanitizedRow[ $column ] = isset( $body[ $column ] ) ? s6eStr( $body[ $column ] ) : "";
+      $sanitizedRow[ $column ] = isset( $category[ $column ] ) ? s6eStr( $category[ $column ] ) : "";
     }
 
     // Build query from here onwards
@@ -158,5 +164,34 @@ class Category
     }
 
     return $statement->execute();
+  }
+
+  /**
+   * Search for a record with some keywords
+   *
+   * @return void
+   */
+  public function search( $keywords ) {
+    $query =
+      "SELECT * " .
+      "FROM `{$this->tableName}` " . 
+      "WHERE `code` LIKE :keywords0 " . 
+      "OR `description` LIKE :keywords1 " . 
+      "ORDER BY `{$this->defaultOrderBy}` {$this->defaultOrder}";
+
+    // Retrieve PDO Statement object based off query string
+    $statement = $this->connection->prepare($query);
+
+    // Sanitize keywords and prepare it for binding
+    $keywords = "%" . s6eStr( $keywords ) . "%";
+
+    // Bind id being searched to id placeholder in query
+    $statement->bindParam( ":keywords0", $keywords );
+    $statement->bindParam( ":keywords1", $keywords );
+
+    // Execute PDO Statement
+    $statement->execute();
+
+    return $statement;
   }
 }
