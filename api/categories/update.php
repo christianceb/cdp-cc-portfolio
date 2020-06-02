@@ -36,7 +36,16 @@ if ($id > 0) {
   $handleRaw['body']['id'] = $id;
 
   // If true, set flag to 1, 0 otherwise
-  $updated = $category->update($handleRaw['body']) ? 1 : 0;
+  $updateResult = $category->update($handleRaw['body']);
+
+  // If EXACTLY true, set flag to 1, 0 if false, -1 otherwise
+  if ($updateResult === true) {
+    $updated = 1;
+  } else if ( $updateResult === false ) {
+    $updated = 0;
+  } else {
+    $updated = -1;
+  }
 } else {
   // Id was set but it had a bad value. Set flag to incomplete (Bad Request)
   $updated = -1;

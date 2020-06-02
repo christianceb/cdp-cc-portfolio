@@ -27,8 +27,16 @@ $inserted = 0;
 
 // Run create routine when able
 if ($handleRaw['success']) {
-  // If true, set flag to 1, 0 otherwise
-  $inserted = $category->create($handleRaw['body']) ? 1 : 0;
+  $createResult = $category->create($handleRaw['body']);
+
+  // If EXACTLY true, set flag to 1, 0 if false, -1 otherwise
+  if ($createResult === true) {
+    $inserted = 1;
+  } else if ( $createResult === false ) {
+    $inserted = 0;
+  } else {
+    $inserted = -1;
+  }
 } else {
   // We flag $inserted as incomplete if JSON decode also failed
   $inserted = -1;
