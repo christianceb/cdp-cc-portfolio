@@ -18,7 +18,23 @@
   <div class="alerts"></div>
   <dl></dl>
 
-  <!-- TODO: products go here -->
+  <div class="products d-none">
+    <hr>
+    <h2>Products in this category:</h2>
+    <table class="table table-dark">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">Description</th>
+          <th scope="col">Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- dust -->
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <script
@@ -45,7 +61,7 @@
   }
 
   // Sanity check
-  if ( id > 1 ) {
+  if ( id > 0 ) {
     url += "?" + (new URLSearchParams({ id: query_vars.get('id') })).toString();
 
     $.get({
@@ -53,6 +69,7 @@
       success: ( data, textStatus, jqXHR ) => {
         populate_category(data[0], category_details_map);
         set_button_parameters(id);
+        query_and_populate_products(id);
         // TODO: products
       },
       error: ( jqXHR, textStatus, errorThrown ) => {

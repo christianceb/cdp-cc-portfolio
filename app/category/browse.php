@@ -51,7 +51,7 @@
     page = Math.floor(query_vars.get('page')); // Ensure we get an int
   }
 
-  if ( page > 1 ) {
+  if ( page > 0 ) {
     query_url += "?" + (new URLSearchParams({ page: query_vars.get('page') })).toString();
   }
 
