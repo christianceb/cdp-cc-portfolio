@@ -30,7 +30,7 @@ function collate(fields) {
   let data = {};
 
   fields.forEach( (key)=> {
-    data[key] = $(`#${key}`).val();
+    data[key] = $(`[name=${key}]`).val();
   } );
 
   return data;
@@ -134,7 +134,7 @@ function populate( data ) {
  * Populate page with category details
  *
  * @param object category The category as returned by the API
- * @param object map A map of properties to display in the page
+ * @param object map A map of properties to apply into fields in the page
  * @return void
  */
 function populate_category(category, map) {
@@ -153,6 +153,19 @@ function populate_category(category, map) {
   });
 
   $("dl").append(dl_html);
+}
+
+/**
+ * Populate edit form with category details
+ *
+ * @param object category The category as returned by the API
+ * @param object map A map of properties to display in the page
+ * @return void
+ */
+function populate_category_edit(category, map) {
+  map.forEach(key => {
+    $(`[name=${key}]`).val(category[key]);
+  });
 }
 
 /**

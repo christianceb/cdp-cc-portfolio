@@ -70,7 +70,6 @@
         populate_category(data[0], category_details_map);
         set_button_parameters(id);
         query_and_populate_products(id);
-        // TODO: products
       },
       error: ( jqXHR, textStatus, errorThrown ) => {
         populate([]); // Populate with nothing
