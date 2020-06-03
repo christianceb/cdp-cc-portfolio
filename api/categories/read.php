@@ -4,8 +4,8 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
 // Set default fail states
-$http_response_code = 404;
-$json_response = ["message" => "No rows found."];
+$httpResponseCode = 404;
+$jsonResponse = ["message" => "No rows found."];
 
 // Prepare required classes and objects
 include_once '../../config/Database.php';
@@ -18,8 +18,15 @@ $databaseConnection = $database->getConnection();
 // Pass database connection resource to collection class
 $category = new Category($databaseConnection);
 
+// Get page if set and ensure it's zero-indexed
+$page = isset($_GET['page']) ? floor($_GET['page']) : 0;
+$page > 0 ? $page-- : 0;
+
+// Explicitly set limit which can be used later to determine pagination parameters
+$limit = 10;
+
 // Retrieve entries being browsed
-$statement = $category->read();
+$statement = $category->read($page, $limit);
 
 // Check if we have some row(s)
 if ($statement->rowCount() > 0) {
@@ -40,12 +47,15 @@ if ($statement->rowCount() > 0) {
   }
 
   // Set response code of successful request
-  $http_response_code = 200;
+  $httpResponseCode = 200;
 
   // Return results as part of response
-  $json_response = $categories;
+  $jsonResponse = [
+    'results' => $categories,
+    'pages' => ceil($category->count() / $limit)
+  ];
 }
 
 // Return necessary data
-http_response_code($http_response_code);
-echo json_encode($json_response);
+http_response_code($httpResponseCode);
+echo json_encode($jsonResponse);
