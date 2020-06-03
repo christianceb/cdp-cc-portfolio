@@ -172,3 +172,57 @@ function set_button_parameters(id) {
     }
   });
 }
+
+/**
+ * Query and populate products using a provided category id
+ * @param int id The category ID to query products
+ */
+function query_and_populate_products(id) {
+  let url = "/api/products/category.php";
+  
+  if ( id > 0 ) {
+    $.get({
+      url: url += "?" + (new URLSearchParams({ id: id })).toString(),
+      success: ( data, textStatus, jqXHR ) => {
+        populate_products(data);
+
+        // Show hidden elements related to products
+        $(".products").removeClass("d-none")
+      },
+      error: ( jqXHR, textStatus, errorThrown ) => {
+        populate_products([]); // Populate with nothing
+      }
+    });
+  }
+}
+
+/**
+ * Populate product tables with products
+ * @param array data List of product to render
+ */
+function populate_products(data) {
+  const row_template = `
+    <tr>
+      <th scope="row">{id}</th>
+      <td>{name}</td>
+      <td>{description}</td>
+      <td>{price}</td>
+    </tr>
+  `;
+  const row_empty_template = `<tr><td colspan="4" class="text-center"><em>dust</em></td></tr>`;
+
+  // HTML of rows
+  let rows = "";
+
+  if ( data.length ) {
+    data.forEach(element => {
+      // Element conveniently mapped to match keys in row_template
+      rows += row_template.formatUnicorn( element )
+    });
+  } else {
+    rows += row_empty_template;
+  }
+
+  // Unhide elements
+  $("table tbody").append(rows);
+}
