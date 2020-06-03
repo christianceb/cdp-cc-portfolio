@@ -4,8 +4,8 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
 // Set default fail states
-$http_response_code = 404;
-$json_response = ["message" => "No rows found."];
+$httpResponseCode = 404;
+$jsonResponse = ["message" => "No rows found."];
 
 // Prepare required classes and objects
 include_once '../../config/Database.php';
@@ -49,13 +49,13 @@ if ($id !== null && $id > 0) {
     }
 
     // Set response code of successful request
-    $http_response_code = 200;
+    $httpResponseCode = 200;
 
     // Return results as part of response
-    $json_response = $categories;
+    $jsonResponse = $categories;
   }
 }
 
 // Return necessary data
-http_response_code($http_response_code);
-echo json_encode($json_response);
+http_response_code($httpResponseCode);
+echo json_encode($jsonResponse);

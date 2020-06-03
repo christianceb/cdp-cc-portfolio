@@ -62,19 +62,27 @@ class Category
   }
 
   /**
-   * Browse for records
-   *
+   * Browse for records. Default limit of 10 rows unless overidden
+   * 
+   * @param int $offset Offset in query. Offsets are zero indexed
    * @return PDOStatement Result of the executed statement
    */
-  public function read()
+  public function read($offset = 0, $limit = 10)
   {
+    $offset = $limit * $offset;
+
     $query =
       "SELECT * " .
       "FROM `{$this->tableName}` " .
-      "ORDER BY `{$this->defaultOrderBy}` {$this->defaultOrder}";
+      "ORDER BY `{$this->defaultOrderBy}` {$this->defaultOrder} " . 
+      "LIMIT :limit " .
+      "OFFSET :offset";
 
     // Retrieve PDO Statement object based off query string
     $statement = $this->connection->prepare($query);
+
+    $statement->bindParam(":limit", $limit);
+    $statement->bindParam(":offset", $offset);
 
     // Execute PDO Statement
     $statement->execute();
@@ -296,5 +304,20 @@ class Category
 
     // Execute PDO Statement and return value
     return $statement->execute();
+  }
+
+  /**
+   * Retrieves the number of rows from this collection.
+   *
+   * @return int|bool integer greater than or equal to 0. Otherwise false if query failed
+   */
+  public function count()
+  {
+    $statement =
+      "SELECT COUNT(*) " .
+      "FROM `{$this->tableName}`";
+
+    $query = $this->connection->query($statement);
+    return $query->fetchColumn();
   }
 }
