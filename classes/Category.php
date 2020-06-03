@@ -44,13 +44,6 @@ class Category
     "deleted_at"
   ];
 
-  public $id;
-  public $code;
-  public $title;
-  public $description;
-  public $createdAt;
-  public $updatedAt;
-
   /**
    * Constructor to keep reference of persistent database connection into class
    *
