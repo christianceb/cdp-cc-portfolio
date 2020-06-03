@@ -175,7 +175,7 @@ function populate_category_edit(category, map) {
  * @return void
  */
 function set_button_parameters(id) {
-  let button_selectors = `#edit, #delete`;
+  let button_selectors = `#edit, #delete, #show`;
   const button_query_vars = (new URLSearchParams({ id: id })).toString();
 
   $(button_selectors).each((index, element) => {
