@@ -23,7 +23,7 @@ $page = isset($_GET['page']) ? floor($_GET['page']) : 0;
 $page > 0 ? $page-- : 0;
 
 // Explicitly set limit which can be used later to determine pagination parameters
-$limit = 10;
+$limit = 5;
 
 // Retrieve entries being browsed
 $statement = $category->read($page, $limit);

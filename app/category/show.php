@@ -48,6 +48,7 @@
   const category_details_map = [
     { key: "id", name: "ID" },
     { key: "name", name: "Name" },
+    { key: "code", name: "Code" },
     { key: "description", name: "Description" },
     { key: "created_at", name: "Created" },
     { key: "updated_at", name: "Updated" },

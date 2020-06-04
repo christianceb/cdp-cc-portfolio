@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Add Category</title>
+  <title>Categories</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
 <div class="container">
-  <h1 class="display-3">Add Category</h1>
+  <h1 class="display-3">Categories</h1>
 
   <a class="btn btn-success" href="add.php" role="button">Add new category</a>
 
@@ -18,7 +18,7 @@
     <thead>
       <tr>
         <th scope="col">ID</th>
-        <th scope="col">Subject</th>
+        <th scope="col">Code</th>
         <th scope="col">Name</th>
         <th scope="col">Description</th>
         <th scope="col">Actions</th>
