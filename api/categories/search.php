@@ -18,12 +18,11 @@ $databaseConnection = $database->getConnection();
 // Pass database connection resource to collection class
 $category = new Category($databaseConnection);
 
-// Handle POSTed data from input stream into something useful
-$handleRaw = handleRaw2JSON(file_get_contents('php://input'));
+// Get query string if any.
+$q = isset($_GET['q']) ? s6eStr($_GET['q']) : null;
 
-// Similar to Google and Twitter, searches uses the `q` key except they use GET and not POST
-if ($handleRaw['success'] && isset($handleRaw['body']['q'])) {
-  $statement = $category->search($handleRaw['body']['q']);
+if ($q !== null) {
+  $statement = $category->search($q);
 
   // Check if we have some row(s)
   if ($statement->rowCount() > 0) {
